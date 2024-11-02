@@ -1,4 +1,3 @@
-#Add/customize and build openmrs module
 # syntax=docker/dockerfile:1.3
 #--------------------------------------------
 # Dev Stage - Assembles and Builds Frontend
@@ -12,15 +11,12 @@ WORKDIR /app
 
 
 # Copy local app module into the build context
-# COPY openmrs-esm-core/packages/apps ./apps
+COPY openmrs-esm-core/packages/apps ./apps
 
 COPY spa-assemble-config.json .
 COPY spa-build-config.json .
-
-COPY openmrs-esm-template-app-4.0.0.tgz .
-
-# Install the local module (if needed)
-RUN npm install ./openmrs-esm-template-app-4.0.0.tgz
+COPY logo.png /usr/share/nginx/html
+COPY favicon.ico /usr/share/nginx/html
 
 RUN npm install -g npm@10.8.3
 
@@ -50,10 +46,4 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=dev /app/spa /usr/share/nginx/html
 COPY config-core_demo.json /usr/share/nginx/html
 
-#Replace logo
-#COPY logo.png /usr/share/nginx/html
-#COPY favicon.ico /usr/share/nginx/html
-
 CMD ["/usr/local/bin/startup.sh"]
-
-root@Anish-vm:/home/azureuser/openmrs-distro-referenceapplication/frontend#
